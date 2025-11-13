@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Microsoft 365 Business Plans</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    /* ---------- THEME VARIABLES (DARK MODE) ---------- */
+    :root {
+      --bg: #020617;
+      --bg-card: #0b1220;
+      --bg-card-alt: #020617;
+      --bg-table-header: #020617;
+      --bg-table-row-alt: #020617;
+      --border-subtle: #1f2937;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --success: #4ade80;
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 8px 0;
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+    }
+
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+    }
+
+    .note {
+      max-width: 960px;
+      margin: 0 auto 20px auto;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ---------- LAYOUT / RESPONSIVE ---------- */
+
+    .plans-wrapper {
+      max-width: 1100px;
+      margin: 0 auto 30px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    /* ---------- ACCORDION CARDS ---------- */
+
+    details.plan-card {
+      background: radial-gradient(circle at top left, var(--bg-card), var(--bg-card-alt));
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 0;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    details.plan-card[open] {
+      border-color: var(--accent-strong);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(8, 47, 73, 0.9);
+    }
+
+    details.plan-card summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: linear-gradient(90deg, rgba(56,189,248,0.15), transparent);
+    }
+
+    details.plan-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .plan-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .per-user {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .email-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background-color: rgba(15,23,42,0.8);
+    }
+
+    .email-yes {
+      color: var(--success);
+      border-color: rgba(74,222,128,0.6);
+    }
+
+    .email-no {
+      color: var(--danger);
+      border-color: rgba(248,113,113,0.7);
+    }
+
+    .summary-chevron {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .plan-body {
+      padding: 0 16px 14px 16px;
+      border-top: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top right, rgba(15,118,110,0.18), transparent);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    ul {
+      margin: 0 0 4px 18px;
+      padding: 0;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    /* ---------- COMPARISON TABLE + STICKY HEADER ---------- */
+
+    .table-outer {
+      max-width: 1100px;
+      margin: 0 auto;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      background-color: var(--bg-card);
+    }
+
+    .table-scroll {
+      max-height: 380px;      /* controls height for sticky header area */
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+
+    table.comparison-table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 760px;
+    }
+
+    table.comparison-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background-color: var(--bg-table-header);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    th, td {
+      border-right: 1px solid var(--border-subtle);
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: rgba(15,23,42,0.6);
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: var(--bg-table-row-alt);
+    }
+
+    .feature-yes {
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .feature-no {
+      font-weight: 600;
+      color: var(--danger);
+    }
+
+    /* ---------- PRICING CALCULATOR ---------- */
+
+    .calculator-section {
+      max-width: 1100px;
+      margin: 32px auto 10px auto;
+    }
+
+    .calculator-card {
+      margin-top: 8px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, var(--bg-card), var(--bg-card-alt));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .calculator-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+
+    .calculator-table th,
+    .calculator-table td {
+      padding: 8px 10px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+
+    .calculator-table th {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .calc-input {
+      width: 90px;
+      max-width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background-color: #020617;
+      color: var(--text-main);
+      font-size: 0.88rem;
+    }
+
+    .calc-input:focus {
+      outline: 1px solid var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .calc-subtotal {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calc-total-box {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: linear-gradient(145deg, rgba(56,189,248,0.1), transparent);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .calc-total-label {
+      font-size: 0.9rem;
+    }
+
+    .calc-total-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calc-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ---------- BUTTON BAR ---------- */
+
+    .button-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0 4px 0;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-strong);
+      background-color: #020617;
+      color: var(--accent-strong);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background-color: #0f172a;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    /* ---------- SMALL SCREEN TWEAKS ---------- */
+
+    @media (max-width: 600px) {
+      body {
+        padding: 14px;
+      }
+
+      details.plan-card summary {
+        padding: 12px 12px;
+      }
+
+      .plan-body {
+        padding: 0 12px 12px 12px;
+      }
+
+      th, td {
+        padding: 6px 6px;
+        font-size: 0.8rem;
+      }
+
+      .calculator-card {
+        padding: 12px 12px;
+      }
+
+      .calc-input {
+        width: 80px;
+      }
+    }
+
+    /* ---------- PRINT STYLES (LIGHT, CLEAN) ---------- */
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --bg-card: #ffffff;
+        --bg-card-alt: #ffffff;
+        --bg-table-header: #f3f4f6;
+        --bg-table-row-alt: #ffffff;
+        --border-subtle: #d1d5db;
+        --text-main: #111827;
+        --text-muted: #4b5563;
+        --accent: #1f2937;
+        --accent-strong: #111827;
+        --danger: #b91c1c;
+        --success: #166534;
+        --shadow-soft: none;
+      }
+
+      body {
+        padding: 0.5in;
+        background-color: #ffffff;
+        color: #111827;
+      }
+
+      .table-outer {
+        box-shadow: none;
+      }
+
+      .plans-wrapper {
+        gap: 10px;
+      }
+
+      details.plan-card {
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        box-shadow: none;
+      }
+
+      details.plan-card summary {
+        background: #f3f4f6;
+      }
+
+      .table-scroll {
+        max-height: none;
+        overflow: visible;
+      }
+
+      table.comparison-table thead th {
+        position: static;  /* no sticky in print */
+      }
+
+      /* Hide buttons in print */
+      .button-bar {
+        display: none !important;
+      }
+
+      /* Ensure bullet text prints neatly */
+      ul {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Microsoft 365 Business Plans</h1>
+  <p class="note">
+    Prices shown are in USD per user/month for an annual commitment and are approximate as of late 2025.
+    Always verify current pricing and features on Microsoft&rsquo;s official site before quoting.
+    Application lists focus on primary Microsoft 365 apps and services rather than every minor feature.
+  </p>
+
+  <!-- ---------- ACCORDION PLAN CARDS ---------- -->
+  <div class="plans-wrapper">
+
+    <!-- Business Basic -->
+    <details class="plan-card" open>
+      <summary>
+        <div class="summary-top-row">
+          <span class="plan-name">Microsoft 365 Business Basic</span>
+          <span class="price">$6.00</span>
+        </div>
+        <div class="summary-top-row">
+          <span class="per-user">Per user/month &bull; annual commitment</span>
+          <span class="email-tag email-yes">Email included (Exchange Online Plan 1)</span>
+          <span class="summary-chevron">Click to expand &or;</span>
+        </div>
+      </summary>
+      <div class="plan-body">
+        <div class="section-title">Key applications</div>
+        <ul>
+          <li>Word (web &amp; mobile)</li>
+          <li>Excel (web &amp; mobile)</li>
+          <li>PowerPoint (web &amp; mobile)</li>
+          <li>Outlook (web &amp; mobile)</li>
+          <li>OneNote (web &amp; mobile)</li>
+          <li>OneDrive (1 TB per user)</li>
+          <li>SharePoint Online</li>
+          <li>Microsoft Teams</li>
+        </ul>
+
+        <div class="section-title">Additional services</div>
+        <ul>
+          <li>Custom business email on your domain (Exchange Online Plan 1)</li>
+          <li>Bookings, Planner, Forms, and other business web apps</li>
+          <li>Basic security, spam, and malware protection</li>
+          <li>Up to 300 users</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Business Standard -->
+    <details class="plan-card">
+      <summary>
+        <div class="summary-top-row">
+          <span class="plan-name">Microsoft 365 Business Standard</span>
+          <span class="price">$12.50</span>
+        </div>
+        <div class="summary-top-row">
+          <span class="per-user">Per user/month &bull; annual commitment</span>
+          <span class="email-tag email-yes">Email included (Exchange Online Plan 1)</span>
+          <span class="summary-chevron">Click to expand &or;</span>
+        </div>
+      </summary>
+      <div class="plan-body">
+        <div class="section-title">Key applications</div>
+        <ul>
+          <li>Everything in Business Basic, plus:</li>
+          <li>Word (desktop, web &amp; mobile)</li>
+          <li>Excel (desktop, web &amp; mobile)</li>
+          <li>PowerPoint (desktop, web &amp; mobile)</li>
+          <li>Outlook (desktop, web &amp; mobile)</li>
+          <li>OneNote (desktop, web &amp; mobile)</li>
+          <li>Access (desktop, PC only)</li>
+          <li>Publisher (desktop, PC only)</li>
+          <li>Microsoft Teams</li>
+          <li>OneDrive &amp; SharePoint Online</li>
+        </ul>
+
+        <div class="section-title">Additional services</div>
+        <ul>
+          <li>Microsoft Loop collaborative workspaces</li>
+          <li>Clipchamp video editing tools</li>
+          <li>Bookings, Planner, Forms, and other business apps</li>
+          <li>Up to 300 users</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Business Premium -->
+    <details class="plan-card">
+      <summary>
+        <div class="summary-top-row">
+          <span class="plan-name">Microsoft 365 Business Premium</span>
+          <span class="price">$22.00</span>
+        </div>
+        <div class="summary-top-row">
+          <span class="per-user">Per user/month &bull; annual commitment</span>
+          <span class="email-tag email-yes">Email included (Exchange Online Plan 1)</span>
+          <span class="summary-chevron">Click to expand &or;</span>
+        </div>
+      </summary>
+      <div class="plan-body">
+        <div class="section-title">Key applications</div>
+        <ul>
+          <li>Everything in Business Standard, including:</li>
+          <li>Word (desktop, web &amp; mobile)</li>
+          <li>Excel (desktop, web &amp; mobile)</li>
+          <li>PowerPoint (desktop, web &amp; mobile)</li>
+          <li>Outlook (desktop, web &amp; mobile)</li>
+          <li>OneNote (desktop, web &amp; mobile)</li>
+          <li>Teams, OneDrive, SharePoint Online</li>
+          <li>Access &amp; Publisher (desktop, PC only)</li>
+        </ul>
+
+        <div class="section-title">Additional services</div>
+        <ul>
+          <li>Microsoft Intune (device &amp; app management)</li>
+          <li>Microsoft Defender for Business</li>
+          <li>Defender for Office 365 (email &amp; collaboration protection)</li>
+          <li>Entra ID P1 (advanced identity &amp; access management)</li>
+          <li>Data loss prevention &amp; information protection features</li>
+          <li>Windows 11 Pro upgrade &amp; Azure Virtual Desktop rights</li>
+          <li>Up to 300 users</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Apps for Business -->
+    <details class="plan-card">
+      <summary>
+        <div class="summary-top-row">
+          <span class="plan-name">Microsoft 365 Apps for Business</span>
+          <span class="price">$8.25</span>
+        </div>
+        <div class="summary-top-row">
+          <span class="per-user">Per user/month &bull; annual commitment</span>
+          <span class="email-tag email-no">No hosted email (no Exchange mailbox)</span>
+          <span class="summary-chevron">Click to expand &or;</span>
+        </div>
+      </summary>
+      <div class="plan-body">
+        <div class="section-title">Key applications</div>
+        <ul>
+          <li>Word (desktop, web &amp; mobile)</li>
+          <li>Excel (desktop, web &amp; mobile)</li>
+          <li>PowerPoint (desktop, web &amp; mobile)</li>
+          <li>Outlook client (desktop, web &amp; mobile)</li>
+          <li>OneNote (desktop, web &amp; mobile)</li>
+          <li>Access (desktop, PC only)</li>
+          <li>Publisher (desktop, PC only)</li>
+          <li>OneDrive (1 TB per user)</li>
+        </ul>
+
+        <div class="section-title">Additional notes</div>
+        <ul>
+          <li><strong>No</strong> hosted Exchange email (you must provide your own email server/service)</li>
+          <li><strong>No</strong> Microsoft Teams or SharePoint Online included</li>
+          <li>Up to 300 users</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <!-- ---------- SUMMARY TABLE WITH STICKY HEADER ---------- -->
+  <h2>Plan / Application Summary</h2>
+  <div class="table-outer">
+    <div class="table-scroll">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th>Email Included</th>
+            <th>Word</th>
+            <th>Excel</th>
+            <th>PowerPoint</th>
+            <th>Outlook</th>
+            <th>Teams</th>
+            <th>OneDrive</th>
+            <th>SharePoint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Business Basic</td>
+            <td><span class="feature-yes">Yes (Exchange)</span></td>
+            <td>Web/Mobile</td>
+            <td>Web/Mobile</td>
+            <td>Web/Mobile</td>
+            <td>Web/Mobile</td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+          </tr>
+          <tr>
+            <td>Business Standard</td>
+            <td><span class="feature-yes">Yes (Exchange)</span></td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+          </tr>
+          <tr>
+            <td>Business Premium</td>
+            <td><span class="feature-yes">Yes (Exchange)</span></td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+          </tr>
+          <tr>
+            <td>Apps for Business</td>
+            <td><span class="feature-no">No</span></td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td>Desktop/Web/Mobile</td>
+            <td><span class="feature-no">No</span></td>
+            <td><span class="feature-yes">Yes</span></td>
+            <td><span class="feature-no">No</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ---------- INTERACTIVE PRICING CALCULATOR (PER-PLAN USERS) ---------- -->
+  <section id="pricing-calculator" class="calculator-section">
+    <h2>Quick Pricing Calculator</h2>
+    <p class="note" style="max-width: 700px; margin-bottom: 16px;">
+      Enter the number of users for each plan. The calculator will show a per-plan subtotal and a combined total.
+      Prices are per user per month and do not include taxes, discounts, or promotions.
+    </p>
+
+    <div class="button-bar">
+      <button type="button" class="btn" onclick="window.print()">Save as PDF</button>
+      <button type="button" class="btn" onclick="emailQuote()">Email Quote</button>
+    </div>
+
+    <div class="calculator-card">
+      <table class="calculator-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Plan</th>
+            <th style="width: 20%;">Price (per user / month)</th>
+            <th style="width: 20%;">Number of users</th>
+            <th style="width: 30%; text-align:right;">Subtotal (per month)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Business Basic</td>
+            <td>$6.00</td>
+            <td>
+              <input type="number" class="calc-input" id="users-basic" min="0" step="1" value="0" />
+            </td>
+            <td class="calc-subtotal" id="subtotal-basic">$0.00</td>
+          </tr>
+          <tr>
+            <td>Business Standard</td>
+            <td>$12.50</td>
+            <td>
+              <input type="number" class="calc-input" id="users-standard" min="0" step="1" value="0" />
+            </td>
+            <td class="calc-subtotal" id="subtotal-standard">$0.00</td>
+          </tr>
+          <tr>
+            <td>Business Premium</td>
+            <td>$22.00</td>
+            <td>
+              <input type="number" class="calc-input" id="users-premium" min="0" step="1" value="0" />
+            </td>
+            <td class="calc-subtotal" id="subtotal-premium">$0.00</td>
+          </tr>
+          <tr>
+            <td>Apps for Business</td>
+            <td>$8.25</td>
+            <td>
+              <input type="number" class="calc-input" id="users-apps" min="0" step="1" value="0" />
+            </td>
+            <td class="calc-subtotal" id="subtotal-apps">$0.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="calc-total-box">
+        <div class="calc-total-label">
+          Combined total per month:
+        </div>
+        <div class="calc-total-value" id="totalPerMonth">$0.00</div>
+
+        <div class="calc-total-label">
+          Estimated combined total per year:
+        </div>
+        <div class="calc-total-value" id="totalPerYear">$0.00</div>
+      </div>
+      <div class="calc-note">
+        Calculation per plan = price × number of users. Annual estimate assumes 12 months.
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Accordion behavior: keep it "accordion style" (one open at a time on screen)
+    document.querySelectorAll('details.plan-card').forEach(function (card) {
+      card.addEventListener('toggle', function () {
+        if (this.open) {
+          document.querySelectorAll('details.plan-card').forEach(function (other) {
+            if (other !== card) other.open = false;
+          });
+        }
+      });
+    });
+
+    // For print: open all sections before printing, then revert to first-only-open
+    function openAllCards() {
+      document.querySelectorAll('details.plan-card').forEach(function (card) {
+        card.open = true;
+      });
+    }
+
+    function resetCardsAfterPrint() {
+      var cards = document.querySelectorAll('details.plan-card');
+      cards.forEach(function (card, index) {
+        card.open = index === 0; // keep only first open
+      });
+    }
+
+    if (window.matchMedia) {
+      var mediaQueryList = window.matchMedia('print');
+      mediaQueryList.addListener(function (mql) {
+        if (mql.matches) {
+          openAllCards();
+        } else {
+          resetCardsAfterPrint();
+        }
+      });
+    }
+
+    window.addEventListener('beforeprint', openAllCards);
+    window.addEventListener('afterprint', resetCardsAfterPrint);
+
+    // ---------- PRICING CALCULATOR (PER-PLAN USERS) ----------
+    function formatCurrency(value) {
+      return '$' + value.toFixed(2);
+    }
+
+    function calculatePerPlan() {
+      var prices = {
+        basic: 6.0,
+        standard: 12.5,
+        premium: 22.0,
+        apps: 8.25
+      };
+
+      var userBasic = parseInt(document.getElementById('users-basic').value || '0', 10);
+      var userStandard = parseInt(document.getElementById('users-standard').value || '0', 10);
+      var userPremium = parseInt(document.getElementById('users-premium').value || '0', 10);
+      var userApps = parseInt(document.getElementById('users-apps').value || '0', 10);
+
+      if (userBasic < 0) userBasic = 0;
+      if (userStandard < 0) userStandard = 0;
+      if (userPremium < 0) userPremium = 0;
+      if (userApps < 0) userApps = 0;
+
+      var subBasic = userBasic * prices.basic;
+      var subStandard = userStandard * prices.standard;
+      var subPremium = userPremium * prices.premium;
+      var subApps = userApps * prices.apps;
+
+      document.getElementById('subtotal-basic').textContent = formatCurrency(subBasic);
+      document.getElementById('subtotal-standard').textContent = formatCurrency(subStandard);
+      document.getElementById('subtotal-premium').textContent = formatCurrency(subPremium);
+      document.getElementById('subtotal-apps').textContent = formatCurrency(subApps);
+
+      var totalPerMonth = subBasic + subStandard + subPremium + subApps;
+      var totalPerYear = totalPerMonth * 12;
+
+      document.getElementById('totalPerMonth').textContent = formatCurrency(totalPerMonth);
+      document.getElementById('totalPerYear').textContent = formatCurrency(totalPerYear);
+    }
+
+    function setupCalculator() {
+      ['users-basic', 'users-standard', 'users-premium', 'users-apps'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', calculatePerPlan);
+        }
+      });
+      calculatePerPlan();
+    }
+
+    // ---------- EMAIL QUOTE ----------
+    function emailQuote() {
+      // Make sure totals are up to date
+      calculatePerPlan();
+
+      var userBasic = document.getElementById('users-basic').value || '0';
+      var userStandard = document.getElementById('users-standard').value || '0';
+      var userPremium = document.getElementById('users-premium').value || '0';
+      var userApps = document.getElementById('users-apps').value || '0';
+
+      var subBasic = document.getElementById('subtotal-basic').textContent || '$0.00';
+      var subStandard = document.getElementById('subtotal-standard').textContent || '$0.00';
+      var subPremium = document.getElementById('subtotal-premium').textContent || '$0.00';
+      var subApps = document.getElementById('subtotal-apps').textContent || '$0.00';
+
+      var totalPerMonth = document.getElementById('totalPerMonth').textContent || '$0.00';
+      var totalPerYear = document.getElementById('totalPerYear').textContent || '$0.00';
+
+      var bodyLines = [
+        'Microsoft 365 Quote',
+        '',
+        'Business Basic: ' + userBasic + ' user(s) — ' + subBasic + ' per month',
+        'Business Standard: ' + userStandard + ' user(s) — ' + subStandard + ' per month',
+        'Business Premium: ' + userPremium + ' user(s) — ' + subPremium + ' per month',
+        'Apps for Business: ' + userApps + ' user(s) — ' + subApps + ' per month',
+        '',
+        'Combined total per month: ' + totalPerMonth,
+        'Estimated combined total per year: ' + totalPerYear,
+        '',
+        '(Prices are per user per month and may not include taxes, discounts, or promotions.)'
+      ];
+
+      var subject = 'Microsoft 365 Quote';
+      var body = bodyLines.join('\r\n');
+
+      var mailtoLink = 'mailto:?subject=' + encodeURIComponent(subject) +
+                       '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailtoLink;
+    }
+
+    document.addEventListener('DOMContentLoaded', setupCalculator);
+  </script>
+</body>
+</html>

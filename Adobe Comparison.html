@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adobe Cloud Plans & Tiers – Comparison</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+      color: #222;
+    }
+    h1, h2, h3 {
+      margin-bottom: 0.25em;
+    }
+    h1 {
+      font-size: 1.6rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 2em;
+    }
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 1.5em;
+    }
+    p.note {
+      font-size: 0.9rem;
+      color: #555;
+      max-width: 800px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1100px;
+      background: #fff;
+      margin: 1em 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    thead {
+      background: #222;
+      color: #fff;
+    }
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+    th {
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+    .tier-individual {
+      background: #e3f2fd;
+    }
+    .tier-teams {
+      background: #e8f5e9;
+    }
+    .tier-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .tier-label.individual {
+      background: #1976d2;
+      color: #fff;
+    }
+    .tier-label.teams {
+      background: #388e3c;
+      color: #fff;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    small {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .apps-toggle-btn {
+      margin-top: 6px;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #388e3c;
+      background: #fff;
+      cursor: pointer;
+    }
+    .apps-toggle-btn:hover {
+      background: #e0f2f1;
+    }
+    .apps-list {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      background: #f1f8e9;
+      border: 1px solid #c5e1a5;
+    }
+    .section-note {
+      font-size: 0.85rem;
+      color: #444;
+      max-width: 900px;
+    }
+    .qty-input {
+      width: 70px;
+    }
+    .total-row-label {
+      text-align: right;
+      font-weight: 600;
+    }
+    .grand-total {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <h1>Adobe Cloud Plans & Tiers – Price & Product Comparison</h1>
+  <p class="note">
+    Prices shown are approximate list prices in USD, per user per month on annual plans billed monthly,
+    as of late 2025 (US region). Promotions, taxes, and regional pricing may vary.
+  </p>
+
+  <!-- SECTION 1: BUNDLE (MULTI-APP) PLANS -->
+  <h2>1. Creative Cloud Bundle (Multi-App) Plans</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Plan / Tier</th>
+        <th>Audience / Tier</th>
+        <th>What’s Included (Key Products)</th>
+        <th>Price / User / Month*</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tier-individual">
+        <td><strong>Creative Cloud Pro</strong></td>
+        <td><span class="tier-label individual">Individual</span><br />All Apps (Pro)</td>
+        <td>
+          20+ Creative Cloud desktop apps, including:
+          <ul>
+            <li>Photoshop, Illustrator, InDesign</li>
+            <li>Premiere Pro, After Effects, Audition</li>
+            <li>Lightroom, Lightroom Classic</li>
+            <li>Acrobat Pro, Adobe Express, XD (where available)</li>
+          </ul>
+        </td>
+        <td><strong>$69.99</strong></td>
+        <td>Includes premium Firefly generative AI credits and access to web & mobile apps.</td>
+      </tr>
+
+      <tr class="tier-individual">
+        <td><strong>Creative Cloud Standard</strong></td>
+        <td><span class="tier-label individual">Individual</span><br />All Apps (Standard)</td>
+        <td>Same core 20+ desktop apps as Pro.</td>
+        <td><strong>$54.99</strong></td>
+        <td>Fewer Firefly credits, no web/iPad/mobile access.</td>
+      </tr>
+
+      <tr class="tier-individual">
+        <td><strong>Photography Plan</strong></td>
+        <td><span class="tier-label individual">Individual</span></td>
+        <td>
+          <ul><li>Lightroom</li><li>Lightroom Classic</li><li>Photoshop</li></ul>
+        </td>
+        <td><strong>$19.99</strong></td>
+        <td>Photo-focused bundle.</td>
+      </tr>
+
+      <tr class="tier-teams">
+        <td><strong>Creative Cloud Pro for Teams</strong></td>
+        <td><span class="tier-label teams">Teams / Business</span></td>
+        <td>
+          20+ CC apps for teams.
+          <br />
+          <button class="apps-toggle-btn" type="button" data-target="apps-cc-teams">
+            Show included apps
+          </button>
+          <div id="apps-cc-teams" class="apps-list" style="display: none;">
+            <strong>Included desktop & mobile apps (common set):</strong>
+            <ul>
+              <li>Photoshop</li>
+              <li>Illustrator</li>
+              <li>InDesign</li>
+              <li>Premiere Pro</li>
+              <li>After Effects</li>
+              <li>Audition</li>
+              <li>Lightroom</li>
+              <li>Lightroom Classic</li>
+              <li>Acrobat Pro</li>
+              <li>Adobe Express</li>
+              <li>XD (where available)</li>
+              <li>Dimension</li>
+              <li>Animate</li>
+              <li>Dreamweaver</li>
+              <li>Character Animator</li>
+              <li>Media Encoder</li>
+              <li>Bridge</li>
+              <li>Fresco</li>
+              <li>Photoshop on iPad</li>
+              <li>Illustrator on iPad</li>
+            </ul>
+          </div>
+        </td>
+        <td><strong>$99.99</strong></td>
+        <td>Admin Console + 4,000 Firefly credits/user.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 2: POPULAR SINGLE-APP & ACROBAT PLANS -->
+  <h2>2. Popular Single-App & Acrobat Plans</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Plan / Product</th>
+        <th>Audience / Tier</th>
+        <th>Included Product(s)</th>
+        <th>Price / User / Month*</th>
+        <th>Typical Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tier-individual">
+        <td><strong>Single App (Core Creative Apps)</strong></td>
+        <td><span class="tier-label individual">Individual</span></td>
+        <td>One flagship CC app (see list below).</td>
+        <td><strong>$22.99</strong></td>
+        <td>Mainly uses one app.</td>
+      </tr>
+
+      <tr class="tier-individual">
+        <td><strong>Lightroom (Individual)</strong></td>
+        <td><span class="tier-label individual">Individual</span></td>
+        <td>Lightroom (cloud-based)</td>
+        <td><strong>$11.99</strong></td>
+        <td>Cloud-first photo editing.</td>
+      </tr>
+
+      <tr class="tier-individual">
+        <td><strong>Acrobat Pro (Individual)</strong></td>
+        <td><span class="tier-label individual">Individual</span></td>
+        <td>Acrobat Pro</td>
+        <td><strong>$19.99</strong></td>
+        <td>Advanced PDF tools.</td>
+      </tr>
+
+      <tr class="tier-teams">
+        <td><strong>Single App – Teams</strong></td>
+        <td><span class="tier-label teams">Teams / Business</span></td>
+        <td>One CC app with Admin Console (see list below).</td>
+        <td><strong>$37.99</strong></td>
+        <td>Teams standardize on one app.</td>
+      </tr>
+
+      <tr class="tier-teams">
+        <td><strong>Acrobat Pro for Teams</strong></td>
+        <td><span class="tier-label teams">Teams / Business</span></td>
+        <td>Acrobat Pro</td>
+        <td><strong>$23.99</strong></td>
+        <td>Business PDF workflows.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 3: ALL SINGLE-APP OPTIONS WITH PRICING CALCULATOR -->
+  <h2>3. Buy Just One App – Single-App Pricing Calculator</h2>
+  <p class="section-note">
+    Use this section like a pricing calculator: enter how many users will get each app (Individual and/or Teams),
+    and the total monthly cost will be calculated at the bottom.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>App</th>
+        <th>Category</th>
+        <th>Individual Price<br /><small>(per user / month)</small></th>
+        <th>Individual Users</th>
+        <th>Teams Price<br /><small>(per user / month)</small></th>
+        <th>Teams Users</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="apps-calculator-body">
+      <tr>
+        <td><strong>Photoshop</strong></td>
+        <td>Imaging & Design</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Photo editing, compositing, graphics.</td>
+      </tr>
+      <tr>
+        <td><strong>Illustrator</strong></td>
+        <td>Vector Graphics</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Logos, icons, illustration, vector art.</td>
+      </tr>
+      <tr>
+        <td><strong>InDesign</strong></td>
+        <td>Layout & Publishing</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Print/digital layouts, brochures, magazines.</td>
+      </tr>
+      <tr>
+        <td><strong>Premiere Pro</strong></td>
+        <td>Video Editing</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Professional video editing.</td>
+      </tr>
+      <tr>
+        <td><strong>After Effects</strong></td>
+        <td>Motion Graphics & VFX</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Motion graphics, visual effects, compositing.</td>
+      </tr>
+      <tr>
+        <td><strong>Audition</strong></td>
+        <td>Audio & Sound</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Audio recording, mixing, cleanup.</td>
+      </tr>
+      <tr>
+        <td><strong>Animate</strong></td>
+        <td>Animation</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>2D animation, web animations.</td>
+      </tr>
+      <tr>
+        <td><strong>Dreamweaver</strong></td>
+        <td>Web Design</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Website design & development.</td>
+      </tr>
+      <tr>
+        <td><strong>XD</strong> (where available)</td>
+        <td>UX / UI Design</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Interface and experience design.</td>
+      </tr>
+      <tr>
+        <td><strong>Dimension</strong></td>
+        <td>3D Design</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>3D compositing & product mockups.</td>
+      </tr>
+      <tr>
+        <td><strong>Fresco</strong></td>
+        <td>Drawing & Painting</td>
+        <td data-price-ind="22.99">$22.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="22.99" data-plan="individual">
+        </td>
+        <td data-price-team="37.99">$37.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="37.99" data-plan="teams">
+        </td>
+        <td>Digital drawing/painting (often bundled with other apps).</td>
+      </tr>
+      <tr>
+        <td><strong>Lightroom</strong> (standalone)</td>
+        <td>Photography</td>
+        <td data-price-ind="11.99">$11.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="11.99" data-plan="individual">
+        </td>
+        <td data-price-team="">–</td>
+        <td>
+          <!-- No teams price for standalone Lightroom in this table -->
+          <input type="number" min="0" value="0" class="qty-input" data-price="0" data-plan="teams" style="display:none;">
+        </td>
+        <td>Cloud-first workflow; also available in Photography plan.</td>
+      </tr>
+      <tr>
+        <td><strong>Acrobat Pro</strong></td>
+        <td>PDF & e-sign</td>
+        <td data-price-ind="19.99">$19.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="19.99" data-plan="individual">
+        </td>
+        <td data-price-team="23.99">$23.99</td>
+        <td>
+          <input type="number" min="0" value="0" class="qty-input" data-price="23.99" data-plan="teams">
+        </td>
+        <td>Advanced PDF tools, e-sign, collaboration.</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="6" class="total-row-label">Total monthly cost (all apps & users):</td>
+        <td class="grand-total" id="grand-total">$0.00</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p><small>*Prices may change; promotions, bundles, and regional pricing may vary.</small></p>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Toggle app list in Section 1
+      const buttons = document.querySelectorAll(".apps-toggle-btn");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          const target = document.getElementById(targetId);
+          if (!target) return;
+
+          const isHidden = target.style.display === "none" || target.style.display === "";
+          target.style.display = isHidden ? "block" : "none";
+          btn.textContent = isHidden ? "Hide included apps" : "Show included apps";
+        });
+      });
+
+      // Pricing calculator in Section 3
+      const qtyInputs = document.querySelectorAll(".qty-input");
+      const grandTotalEl = document.getElementById("grand-total");
+
+      function recalcTotal() {
+        let total = 0;
+        qtyInputs.forEach((input) => {
+          const qty = parseFloat(input.value) || 0;
+          const price = parseFloat(input.getAttribute("data-price")) || 0;
+          total += qty * price;
+        });
+        grandTotalEl.textContent = "$" + total.toFixed(2);
+      }
+
+      qtyInputs.forEach((input) => {
+        input.addEventListener("input", recalcTotal);
+      });
+
+      // Initial calculation
+      recalcTotal();
+    });
+  </script>
+</body>
+</html>
